@@ -36,8 +36,8 @@
  **/
 
 
-#ifndef ER_CARMEN_GLOBAL_H
-#define ER_CARMEN_GLOBAL_H
+#ifndef CARMEN_GLOBAL_H
+#define CARMEN_GLOBAL_H
 
 
 /* to satisfy gcc >= 4.3 */

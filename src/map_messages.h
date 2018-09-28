@@ -7,21 +7,21 @@
  * Roy, Sebastian Thrun, Dirk Haehnel, Cyrill Stachniss,
  * and Jared Glover
  *
- * CARMEN is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public 
- * License as published by the Free Software Foundation; 
+ * CARMEN is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation;
  * either version 2 of the License, or (at your option)
  * any later version.
  *
  * CARMEN is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied 
+ * but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
- * PURPOSE.  See the GNU General Public License for more 
+ * PURPOSE.  See the GNU General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General 
+ * You should have received a copy of the GNU General
  * Public License along with CARMEN; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, 
+ * Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA  02111-1307 USA
  *
  ********************************************************/
@@ -41,7 +41,7 @@
 #ifndef CARMEN_MAP_MESSAGES_H
 #define CARMEN_MAP_MESSAGES_H
 
-#include <carmen_utils/map.h>
+#include "map.h"
 
 
 #ifdef __cplusplus
@@ -73,7 +73,7 @@ typedef struct {
   int size;
   int compressed;
   carmen_map_config_t config;
-  
+
   char *err_mesg;
 
   double timestamp;
@@ -95,7 +95,7 @@ typedef struct {
 #define CARMEN_NAMED_GRIDMAP_REQUEST_NAME    "carmen_named_gridmap_request"
 #define CARMEN_NAMED_GRIDMAP_REQUEST_FMT     "{string,double,string}"
 
-typedef struct {  
+typedef struct {
   carmen_place_p places;
   int num_places;
   double timestamp;
@@ -114,7 +114,7 @@ typedef struct {
 #define CARMEN_NAMED_PLACELIST_REQUEST_NAME    "carmen_named_placelist_request"
 #define CARMEN_NAMED_PLACELIST_REQUEST_FMT     "{string,double,string}"
 
-typedef struct {  
+typedef struct {
   carmen_offlimits_p offlimits_list;
   int list_length;
   double timestamp;
@@ -133,7 +133,7 @@ typedef struct {
 #define CARMEN_NAMED_OFFLIMITS_REQUEST_NAME    "carmen_named_offlimits_request"
 #define CARMEN_NAMED_OFFLIMITS_REQUEST_FMT     "{string,double,string}"
 
-typedef struct {  
+typedef struct {
   carmen_global_offset_t global_offset;
   double timestamp;
   char *host;

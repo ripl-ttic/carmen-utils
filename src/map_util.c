@@ -7,40 +7,40 @@
  * Roy, Sebastian Thrun, Dirk Haehnel, Cyrill Stachniss,
  * and Jared Glover
  *
- * CARMEN is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public 
- * License as published by the Free Software Foundation; 
+ * CARMEN is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation;
  * either version 2 of the License, or (at your option)
  * any later version.
  *
  * CARMEN is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied 
+ * but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
- * PURPOSE.  See the GNU General Public License for more 
+ * PURPOSE.  See the GNU General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General 
+ * You should have received a copy of the GNU General
  * Public License along with CARMEN; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, 
+ * Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA  02111-1307 USA
  *
  ********************************************************/
 
-#include <carmen/carmen.h>
+#include "carmen.h"
 
 /* An implementation of bicubic image interpolation, shamelessly borrowed
-   from an implementation by Blake Carlson (blake-carlson@uiowa.edu). 
+   from an implementation by Blake Carlson (blake-carlson@uiowa.edu).
 */
 
 static const float one_sixth = 1.0 / 6.0;
 
-static float 
-cubic_bspline(float x) 
-{  
+static float
+cubic_bspline(float x)
+{
   float a, b, c, d;
 
   // Implement Eq 4.3-5 in four parts
-  
+
   if((x + 2.0) <= 0.0) {
     a = 0.0;
   }
@@ -53,14 +53,14 @@ cubic_bspline(float x)
   }
   else {
     b = pow((x + 1.0), 3.0);
-  }    
+  }
 
   if(x <= 0) {
     c = 0.0;
   }
   else {
     c = pow(x, 3.0);
-  }  
+  }
 
   if((x - 1.0) <= 0.0) {
     d = 0.0;
@@ -68,7 +68,7 @@ cubic_bspline(float x)
   else {
     d = pow((x - 1.0), 3.0);
   }
-  
+
   return (one_sixth * (a - (4.0 * b) + (6.0 * c) - (4.0 * d)));
 }
 
@@ -89,9 +89,9 @@ carmen_map_util_change_resolution(carmen_map_p map, double new_resolution)
   float f_x, f_y, a, b, tmp, r1, r2;
   int i_x, i_y, m, n;
 
-  new_config.x_size = map->config.resolution/new_resolution * 
+  new_config.x_size = map->config.resolution/new_resolution *
     map->config.x_size;
-  new_config.y_size = map->config.resolution/new_resolution * 
+  new_config.y_size = map->config.resolution/new_resolution *
     map->config.y_size;
   new_config.resolution = new_resolution;
   new_config.map_name = map->config.map_name;
@@ -119,17 +119,17 @@ carmen_map_util_change_resolution(carmen_map_p map, double new_resolution)
   for (x = 2; x < padded_x_size-2; x++) {
     memcpy(padded_map[x]+2, map->map[x-2], map->config.y_size*sizeof(float));
     memcpy(padded_map[x], padded_map[x]+2, 2*sizeof(float));
-    memcpy(padded_map[x]+2+map->config.y_size, 
-	   padded_map[x]+map->config.y_size, 
+    memcpy(padded_map[x]+2+map->config.y_size,
+	   padded_map[x]+map->config.y_size,
 	   2*sizeof(float));
   }
 
   memcpy(padded_map[0], padded_map[2], padded_y_size*sizeof(float));
   memcpy(padded_map[1], padded_map[2], padded_y_size*sizeof(float));
 
-  memcpy(padded_map[padded_x_size-2], padded_map[padded_x_size-3], 
+  memcpy(padded_map[padded_x_size-2], padded_map[padded_x_size-3],
 	 padded_y_size*sizeof(float));
-  memcpy(padded_map[padded_x_size-1], padded_map[padded_x_size-3], 
+  memcpy(padded_map[padded_x_size-1], padded_map[padded_x_size-3],
 	 padded_y_size*sizeof(float));
 
   scale_factor = map->config.resolution / new_resolution;
@@ -137,19 +137,19 @@ carmen_map_util_change_resolution(carmen_map_p map, double new_resolution)
   for (y = 0; y < new_config.y_size; y++) {
     f_y = y / scale_factor;
     i_y = carmen_trunc(f_y);
-    a   = f_y - carmen_trunc(f_y);		
+    a   = f_y - carmen_trunc(f_y);
     for (x = 0; x < new_config.x_size; x++) {
       f_x = x / scale_factor;
       i_x = carmen_trunc(f_x);
       b   = f_x - carmen_trunc(f_x);
-        
+
       // Implement EQ 14.5-3 here
       tmp = 0.0;
       for(m = -1; m < 3; m++) {
 	r1 = cubic_bspline((float) m - a);
-          
+
 	for(n = -1; n < 3; n++) {
-	  r2 = cubic_bspline(-1.0*((float)n - b)); 
+	  r2 = cubic_bspline(-1.0*((float)n - b));
 	  tmp += padded_map[i_x+n+2][i_y+m+2] * r1 * r2;
 	}
       }
@@ -159,7 +159,7 @@ carmen_map_util_change_resolution(carmen_map_p map, double new_resolution)
       if (tmp > 1.0)
 	tmp = 1.0;
       new_map[x][y] = tmp;
-    }		
+    }
   }
 
   free(padded_map);
@@ -178,7 +178,7 @@ void
 carmen_minimize_gridmap(carmen_map_t *map, int *x_offset, int *y_offset)
 {
   int x, y;
-  
+
   int min_x = map->config.x_size, min_y = map->config.y_size;
   int max_x = 0, max_y = 0;
 
@@ -187,9 +187,9 @@ carmen_minimize_gridmap(carmen_map_t *map, int *x_offset, int *y_offset)
   float *new_complete_map;
 
   for (x = 0; x < map->config.x_size; x++)
-    for (y = 0; y < map->config.y_size; y++) 
+    for (y = 0; y < map->config.y_size; y++)
       {
-	if (map->map[x][y] != -1) 
+	if (map->map[x][y] != -1)
 	  {
 	    min_x = carmen_fmin(min_x, x);
 	    min_y = carmen_fmin(min_y, y);
@@ -210,7 +210,7 @@ carmen_minimize_gridmap(carmen_map_t *map, int *x_offset, int *y_offset)
   for (x = 0; x < new_width; x++)
     {
       new_map[x] = new_complete_map+x*new_height;
-      for (y = 0; y < new_height; y++) 
+      for (y = 0; y < new_height; y++)
 	memcpy(new_map[x], map->map[x+min_x]+min_y, new_height*sizeof(float));
     }
 
@@ -224,10 +224,10 @@ carmen_minimize_gridmap(carmen_map_t *map, int *x_offset, int *y_offset)
   map->config.y_size = new_height;
 
   *x_offset = min_x;
-  *y_offset = min_y; 
+  *y_offset = min_y;
 }
 
-void carmen_minimize_offlimits(carmen_offlimits_list_t *offlimits_list, 
+void carmen_minimize_offlimits(carmen_offlimits_list_t *offlimits_list,
 			       double x_offset, double y_offset)
 {
   int i;
@@ -247,8 +247,8 @@ void carmen_minimize_offlimits(carmen_offlimits_list_t *offlimits_list,
 }
 
 
-void carmen_minimize_places(carmen_map_placelist_t *places, 
-			    double x_offset, double y_offset, 
+void carmen_minimize_places(carmen_map_placelist_t *places,
+			    double x_offset, double y_offset,
 			    double width, double height)
 {
   int index;
@@ -269,13 +269,13 @@ void carmen_minimize_places(carmen_map_placelist_t *places,
 }
 
 
-void carmen_rotate_gridmap(carmen_map_p map, int rotation) 
+void carmen_rotate_gridmap(carmen_map_p map, int rotation)
 {
   int index, x = 0, y = 0;
   int height, width;
   float *new_map, *new_map_ptr;
-  
-  new_map = (float *)calloc(map->config.x_size*map->config.y_size, 
+
+  new_map = (float *)calloc(map->config.x_size*map->config.y_size,
 			    sizeof(float));
   carmen_test_alloc(new_map);
 
@@ -285,7 +285,7 @@ void carmen_rotate_gridmap(carmen_map_p map, int rotation)
   new_map_ptr = new_map;
   width = map->config.x_size;
   height = map->config.y_size;
-  for (index = 0; index < width*height; index++) {      
+  for (index = 0; index < width*height; index++) {
     if (rotation == 0) {
       x = index / height;
       y = index % height;
@@ -306,7 +306,7 @@ void carmen_rotate_gridmap(carmen_map_p map, int rotation)
   map->complete_map = new_map;
 
   free(map->map);
-  
+
   if (rotation == 1 || rotation == 3) {
     height = map->config.x_size;
     width = map->config.y_size;
@@ -316,12 +316,12 @@ void carmen_rotate_gridmap(carmen_map_p map, int rotation)
 
   map->map = (float **)calloc(map->config.x_size, sizeof(float *));
   carmen_test_alloc(map->map);
-  
-  for (index = 0; index < map->config.x_size; index++) 
+
+  for (index = 0; index < map->config.x_size; index++)
     map->map[index] = map->complete_map+index*map->config.y_size;
 }
 
-static carmen_inline void rotate(int rotation, double old_x, double old_y, 
+static carmen_inline void rotate(int rotation, double old_x, double old_y,
 			  double *new_x, double *new_y,
 			  double width, double height)
 {
@@ -337,13 +337,13 @@ static carmen_inline void rotate(int rotation, double old_x, double old_y,
   } else if (rotation == 3) {
     *new_x = old_y;
     *new_y = height-old_x;
-  } else 
+  } else
     carmen_die("Major error in rotate %s %d\n", __FILE__, __LINE__);
 }
 
 void carmen_rotate_offlimits(carmen_map_config_t config,
-			     carmen_offlimits_list_t *offlimits_list, 
-			     int rotation) 
+			     carmen_offlimits_list_t *offlimits_list,
+			     int rotation)
 {
   int index;
   double new_x = 0, new_y = 0;
@@ -359,21 +359,21 @@ void carmen_rotate_offlimits(carmen_map_config_t config,
 
   for (index = 0; index < offlimits_list->list_length; index++) {
     offlimit = offlimits_list->offlimits+index;
-    rotate(rotation, offlimit->x1, offlimit->y1, &new_x, &new_y, 
+    rotate(rotation, offlimit->x1, offlimit->y1, &new_x, &new_y,
 	   width, height);
     offlimit->x1 = new_x;
     offlimit->y1 = new_y;
 
     if (offlimit->type != CARMEN_OFFLIMITS_POINT_ID) {
-      rotate(rotation, offlimit->x2, offlimit->y2, &new_x, 
+      rotate(rotation, offlimit->x2, offlimit->y2, &new_x,
 	     &new_y, config.x_size, config.y_size);
       offlimit->x2 = new_x;
       offlimit->y2 = new_y;
-    } 
+    }
   }
 }
 
-void carmen_rotate_places(carmen_map_config_t config, 
+void carmen_rotate_places(carmen_map_config_t config,
 			  carmen_map_placelist_t *places, int rotation)
 {
   int index;
@@ -395,8 +395,7 @@ void carmen_rotate_places(carmen_map_config_t config,
     place->x = new_x;
     place->y = new_y;
 
-    if (place->type != CARMEN_NAMED_POSITION_TYPE) 
+    if (place->type != CARMEN_NAMED_POSITION_TYPE)
       place->theta = carmen_normalize_theta(place->theta + rotation*M_PI/2);
   }
 }
-

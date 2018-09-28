@@ -7,21 +7,21 @@
  * Roy, Sebastian Thrun, Dirk Haehnel, Cyrill Stachniss,
  * and Jared Glover
  *
- * CARMEN is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public 
- * License as published by the Free Software Foundation; 
+ * CARMEN is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation;
  * either version 2 of the License, or (at your option)
  * any later version.
  *
  * CARMEN is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied 
+ * but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
- * PURPOSE.  See the GNU General Public License for more 
+ * PURPOSE.  See the GNU General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General 
+ * You should have received a copy of the GNU General
  * Public License along with CARMEN; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, 
+ * Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA  02111-1307 USA
  *
  ********************************************************/
@@ -37,7 +37,7 @@ void write_fixed_string(carmen_FILE *fp, char *str, int n)
     l = 0;
   else
     l = strlen(str);
-  
+
   if(l > n)
     l = n;
   for(i = 0; i < l; i++)
@@ -162,7 +162,7 @@ static int named_chunk_size(unsigned int chunk_type, char *name, ...)
   size = vchunk_size(chunk_type, ap) + strlen(name) + 1;
   va_end(ap);
 
-  return size;  
+  return size;
 }
 
 int carmen_map_write_all(carmen_FILE *fp, float **prob,
@@ -213,7 +213,7 @@ int carmen_map_write_all(carmen_FILE *fp, float **prob,
   return 0;
 }
 
-int carmen_map_write_comment_chunk(carmen_FILE *fp, int size_x, int size_y, 
+int carmen_map_write_comment_chunk(carmen_FILE *fp, int size_x, int size_y,
 				 double resolution, char *origin,
 				 char *description)
 {
@@ -246,7 +246,7 @@ int carmen_map_write_id(carmen_FILE *fp)
   return 0;
 }
 
-static int carmen_map_write_creator_chunk_data(carmen_FILE *fp, char *origin, 
+static int carmen_map_write_creator_chunk_data(carmen_FILE *fp, char *origin,
 					       char *description)
 {
   time_t t;
@@ -263,7 +263,7 @@ static int carmen_map_write_creator_chunk_data(carmen_FILE *fp, char *origin,
   return 0;
 }
 
-int carmen_map_write_creator_chunk(carmen_FILE *fp, char *origin, 
+int carmen_map_write_creator_chunk(carmen_FILE *fp, char *origin,
 				   char *description)
 {
   int size;
@@ -291,7 +291,7 @@ int carmen_map_write_named_creator_chunk(carmen_FILE *fp, char *name,
   return carmen_map_write_creator_chunk_data(fp, origin, description);
 }
 
-static int carmen_map_write_gridmap_chunk_data(carmen_FILE *fp, float **prob, 
+static int carmen_map_write_gridmap_chunk_data(carmen_FILE *fp, float **prob,
 					       int size_x, int size_y, double resolution)
 {
   int x;
@@ -306,7 +306,7 @@ static int carmen_map_write_gridmap_chunk_data(carmen_FILE *fp, float **prob,
   return 0;
 }
 
-int carmen_map_write_gridmap_chunk(carmen_FILE *fp, float **prob, 
+int carmen_map_write_gridmap_chunk(carmen_FILE *fp, float **prob,
 				   int size_x, int size_y, double resolution)
 {
   int size;
@@ -319,7 +319,7 @@ int carmen_map_write_gridmap_chunk(carmen_FILE *fp, float **prob,
   return carmen_map_write_gridmap_chunk_data(fp, prob, size_x, size_y, resolution);
 }
 
-int carmen_map_write_named_gridmap_chunk(carmen_FILE *fp, char *name, float **prob, 
+int carmen_map_write_named_gridmap_chunk(carmen_FILE *fp, char *name, float **prob,
 					 int size_x, int size_y, double resolution)
 {
   int size;
@@ -334,7 +334,7 @@ int carmen_map_write_named_gridmap_chunk(carmen_FILE *fp, char *name, float **pr
   return carmen_map_write_gridmap_chunk_data(fp, prob, size_x, size_y, resolution);
 }
 
-static int carmen_map_write_places_chunk_data(carmen_FILE *fp, carmen_place_p places, 
+static int carmen_map_write_places_chunk_data(carmen_FILE *fp, carmen_place_p places,
 					      int num_places)
 {
   int i;
@@ -377,7 +377,7 @@ static int carmen_map_write_places_chunk_data(carmen_FILE *fp, carmen_place_p pl
   return 0;
 }
 
-int carmen_map_write_places_chunk(carmen_FILE *fp, carmen_place_p places, 
+int carmen_map_write_places_chunk(carmen_FILE *fp, carmen_place_p places,
 				  int num_places)
 {
   int size;
@@ -405,7 +405,7 @@ int carmen_map_write_named_places_chunk(carmen_FILE *fp, char *name,
   return carmen_map_write_places_chunk_data(fp, places, num_places);
 }
 
-static int carmen_map_write_offlimits_chunk_data(carmen_FILE *fp, 
+static int carmen_map_write_offlimits_chunk_data(carmen_FILE *fp,
 						 carmen_offlimits_p offlimits_list,
 						 int num_items)
 {
@@ -446,7 +446,7 @@ static int carmen_map_write_offlimits_chunk_data(carmen_FILE *fp,
   return 0;
 }
 
-int carmen_map_write_offlimits_chunk(carmen_FILE *fp, 
+int carmen_map_write_offlimits_chunk(carmen_FILE *fp,
 				     carmen_offlimits_p offlimits_list,
 				     int num_items)
 {
@@ -476,7 +476,7 @@ int carmen_map_write_named_offlimits_chunk(carmen_FILE *fp, char *name,
   return carmen_map_write_offlimits_chunk_data(fp, offlimits_list, num_items);
 }
 
-int carmen_map_write_global_offset_chunk(carmen_FILE *fp, 
+int carmen_map_write_global_offset_chunk(carmen_FILE *fp,
 					 carmen_global_offset_t *global_offset)
 {
   int size;
@@ -491,12 +491,12 @@ int carmen_map_write_global_offset_chunk(carmen_FILE *fp,
 }
 
 int carmen_map_write_named_global_offset_chunk(carmen_FILE *fp, char *name,
-					       carmen_global_offset_t 
+					       carmen_global_offset_t
 					       *global_offset)
 {
   int size;
 
-  carmen_fputc(CARMEN_MAP_GLOBAL_OFFSET_CHUNK | 
+  carmen_fputc(CARMEN_MAP_GLOBAL_OFFSET_CHUNK |
 	       CARMEN_MAP_NAMED_CHUNK_FLAG, fp);
   size = chunk_size(CARMEN_MAP_GLOBAL_OFFSET_CHUNK, name);
   carmen_fwrite(&size, sizeof(int), 1, fp);
@@ -633,7 +633,7 @@ int carmen_map_write_to_ppm(carmen_map_p map, char *output_filename)
 
   fprintf(fp, "P6\n%d %d\n255\n", map->config.x_size, map->config.y_size);
   for(y = map->config.y_size - 1; y >= 0; y--)
-    for(x = 0; x < map->config.x_size; x++) 
+    for(x = 0; x < map->config.x_size; x++)
       if(map->map[x][y] == -1) {
 	fputc(0, fp); fputc(0, fp); fputc(255, fp);
       }
@@ -649,4 +649,3 @@ int carmen_map_write_to_ppm(carmen_map_p map, char *output_filename)
 
   return 0;
 }
-

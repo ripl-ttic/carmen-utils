@@ -7,29 +7,29 @@
  * Roy, Sebastian Thrun, Dirk Haehnel, Cyrill Stachniss,
  * and Jared Glover
  *
- * CARMEN is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public 
- * License as published by the Free Software Foundation; 
+ * CARMEN is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation;
  * either version 2 of the License, or (at your option)
  * any later version.
  *
  * CARMEN is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied 
+ * but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
- * PURPOSE.  See the GNU General Public License for more 
+ * PURPOSE.  See the GNU General Public License for more
  * details.
  *
- * You should have received a copy of the GNU General 
+ * You should have received a copy of the GNU General
  * Public License along with CARMEN; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, 
+ * Free Software Foundation, Inc., 59 Temple Place,
  * Suite 330, Boston, MA  02111-1307 USA
  *
  ********************************************************/
 
 /* Standard include file */
 
-#ifndef ER_CARMEN_H
-#define ER_CARMEN_H
+#ifndef CARMEN_H
+#define CARMEN_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,7 +41,7 @@ extern "C" {
 
 #ifndef va_copy
 #define va_copy __va_copy
-#endif 
+#endif
 
 #include <unistd.h>
 #include <ctype.h>
@@ -71,18 +71,18 @@ extern "C" {
 #define MAXFLOAT FLT_MAX
 #endif
 
-#include <carmen_utils/global.h>
-    
-#include <carmen_utils/laser_messages.h>    
-#include <carmen_utils/map.h>
-#include <carmen_utils/map_messages.h>
-#include <carmen_utils/map_interface.h>
+#include "global.h"
 
-#include <carmen_utils/geometry.h>
-#include <carmen_utils/navigator_messages.h>
-#include <carmen_utils/robot_messages.h>
-#include <carmen_utils/base_messages.h>
-#include <carmen_utils/map_io.h>
+#include "laser_messages.h"
+#include "map.h"
+#include "map_messages.h"
+#include "map_interface.h"
+
+#include "geometry.h"
+#include "navigator_messages.h"
+#include "robot_messages.h"
+//#include "base_messages.h"
+#include "map_io.h"
 
 #ifdef __cplusplus
 }

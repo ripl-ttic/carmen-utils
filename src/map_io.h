@@ -26,8 +26,8 @@
  *
  ********************************************************/
 
-#ifndef ER_CARMEN_MAP_IO_H
-#define ER_CARMEN_MAP_IO_H
+#ifndef CARMEN_MAP_IO_H
+#define CARMEN_MAP_IO_H
 
 #include "carmen_stdio.h"
 #include "map.h"
