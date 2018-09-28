@@ -81,7 +81,7 @@ extern "C" {
 #include "geometry.h"
 #include "navigator_messages.h"
 #include "robot_messages.h"
-//#include "base_messages.h"
+#include "base_messages.h"
 #include "map_io.h"
 
 #ifdef __cplusplus

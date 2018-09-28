@@ -24,7 +24,7 @@ pods_install_headers(carmen.h
   map_interface.h
   map_messages.h
   #localize_messages.h
-  #base_messages.h
+  base_messages.h
   map_io.h
   laser_messages.h
   robot_messages.h
