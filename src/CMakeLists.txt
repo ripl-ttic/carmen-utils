@@ -35,6 +35,12 @@ pods_install_headers(carmen.h
 # make the library public
 pods_install_libraries(carmen-utils)
 
+set(REQUIRED_LIBS
+    lcmtypes_ripl-general
+)
+
+pods_use_pkg_config_packages(carmen-utils ${REQUIRED_LIBS})
+
 # create a pkg-config file for the library, to make it easier for other
 # software to use.
 pods_install_pkg_config_file(carmen-utils

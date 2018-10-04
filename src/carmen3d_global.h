@@ -7,7 +7,7 @@ extern "C" {
 #include <math.h>
 
 #include "global.h"
-#include <lcmtypes/hr_lcmtypes.h>
+#include <lcmtypes/ripl_general_lcmtypes.h>
 
   static inline double carmen3d_fsign(double num)
   {
